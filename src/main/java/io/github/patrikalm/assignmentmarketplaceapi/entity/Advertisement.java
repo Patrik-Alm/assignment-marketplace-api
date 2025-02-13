@@ -12,33 +12,39 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Getter
 @ToString
+@EqualsAndHashCode(exclude = "user")
 
 @Entity
 public class Advertisement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "Advertisement_Id", unique = true, nullable = false)
-    String id;
+    @Column(name = "Advertisement_Id", unique = true, nullable = false, updatable = false)
+    protected String id;
 
     @Column(name = "Advertisement_Name")
-    @NotNull
+    @NonNull
     @Setter(AccessLevel.NONE)
-    String name;
+    private String name;
 
     @Column
     @Setter(AccessLevel.NONE)
-    String description;
+    private String description;
 
     @Column
-    @NotNull
+    @NonNull
     @Setter(AccessLevel.NONE)
-    LocalDate startDate;
+    private LocalDate startDate;
 
     @Column
-    @NotNull
+    @NonNull
     @Setter(AccessLevel.NONE)
-    LocalDate endDate;
+    private LocalDate endDate;
+
+    //without ToString.exclude because the user shall be in the string as well.
+    @ManyToOne
+    @JoinColumn(name = "User_Id")
+    private User user;
 
 
 
